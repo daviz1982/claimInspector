@@ -22,25 +22,25 @@ module.exports = (_, argv) => {
         {
           test: /\.(js)$/,
           exclude: /node_modules/,
-          // use: {
-          //   loader: 'babel-loader',
-          //   options: {
-          //     cacheDirectory: true,
-          //     cacheCompression: false,
-          //     compact: !isDevelopment,
-          //   },
-          // },
+          use: {
+            loader: 'babel-loader',
+            options: {
+              cacheDirectory: true,
+              cacheCompression: false,
+              compact: !isDevelopment,
+            },
+          },
         },
-        // {
-        //   test: /\.css$/,
-        //   use: [MiniCssExtractPlugin.loader, 'css-loader'],
-        // },
+        {
+          test: /\.css$/,
+          use: [MiniCssExtractPlugin.loader, 'css-loader'],
+        },
       ],
     },
-    // plugins: [
-    //   new HtmlWebpackPlugin({ template: './index.html' }), //
-    //   new MiniCssExtractPlugin({ filename: 'style.css' }),
-    // ],
+    plugins: [
+      new HtmlWebpackPlugin({ template: './index.html' }), //
+      new MiniCssExtractPlugin({ filename: 'style.css' }),
+    ],
     performance: {
       hints: isDevelopment ? 'warning' : 'error',
     },
