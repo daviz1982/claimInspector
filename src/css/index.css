@@ -1,0 +1,12 @@
+h1 {
+  color: limegreen;
+}
+
+.claim {
+  border: 1px solid #963366;
+  border-radius: 5px;
+  padding: 1rem;
+  margin: 1rem 0;
+  width: 50%;
+  list-style: none;
+}
