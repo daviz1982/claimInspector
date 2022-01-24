@@ -2,6 +2,7 @@ import './css/index.css';
 import json from './marker_world.json';
 
 let arrResults = [];
+const urlRemoteMap = 'https://mapa.shibacraft.net/tiles/_markers_/marker_world.json';
 
 const parseMap = (jsonData) => {
   const areas = jsonData.sets['griefdefender.markerset'].areas;
@@ -19,6 +20,18 @@ const parseMap = (jsonData) => {
   });
   return data;
 };
+
+const getRemoteMap = async (url) => {
+  const response = await fetch(url);
+  if (response.ok) {
+    const jsonValue = await response.json();
+    return Promise.resolve(jsonValue);
+  } else {
+    return Promise.reject('Not found');
+  }
+};
+
+const mapPreview = (url) => `<div class="claim-map"><iframe src="${url}"></iframe></div>`;
 
 const filterMap = ({ mapData, numDays = 5 }) => {
   const parser = new DOMParser();
@@ -42,19 +55,23 @@ const filterMap = ({ mapData, numDays = 5 }) => {
     const diffTime = calculateTime({ claimDate: fecha, interval: timeInterval });
     const claimSize = calculateClaimSize({ x: e.x, z: e.z });
     if (diffTime < 0) {
+      const mapUrl = buildLink({
+        x: e.x,
+        z: e.z,
+      });
       arrResults.push({
         claimSize,
         date: fecha,
         text: `
         <li class="claim">
-          User: ${e.label}<br/>
-          Coords: <a href="${buildLink({
-            x: e.x,
-            z: e.z,
-          })}" target="_blank">${printCoords({ x: e.x, z: e.z })}</a><br/>
-          Tamaño claim: ${claimSize}<br/>
-          Caducidad: ${calculateDeadlineDate(fecha).toDateString()}<br/>
-          Info: ${e.desc}
+          <div class="claim-info">
+            User: ${e.label}<br/>
+            Coords: <a href="${mapUrl}" target="_blank">${printCoords({ x: e.x, z: e.z })}</a><br/>
+            Tamaño claim: ${claimSize}<br/>
+            Caducidad: ${calculateDeadlineDate(fecha).toDateString()}<br/>
+            Info: ${e.desc}
+          </div>
+          <!-- ${mapPreview(mapUrl)} -->
         </li>`,
       });
     }
@@ -115,13 +132,13 @@ const cleanPreviousResults = () => {
 
 document.getElementById('search').addEventListener('click', () => {
   const numDays = document.getElementById('numDays').value;
+  arrResults = [];
   cleanPreviousResults();
-  filterMap({ mapData: parseMap(json), numDays });
-  showResults();
+  getRemoteMap(urlRemoteMap).then((json) => {
+    filterMap({ mapData: parseMap(json), numDays });
+    showResults();
+  });
 });
-
-// const buttons = Array.from(document.getElementsByClassName('order-button'));
-// console.log(buttons);
 
 const buttons = Array.from(document.getElementsByClassName('order-button'));
 buttons.forEach((button) => {
