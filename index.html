@@ -5,25 +5,31 @@
   <meta charset="UTF-8" />
   <meta http-equiv="X-UA-Compatible" content="IE=edge" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>VanillaJS Boilerplate</title>
+  <title>Outdated Claim Search - Shibacraft</title>
 </head>
 
 <body>
   <h1>Buscador de Claims</h1>
-  <div>
+  <div class="form">
     <label for="numDays">Numero de días</label>
-    <input id="numDays" type="number" value="5">
+    <input id="numDays" type="number" value="1">
     <button id="search">Buscar</button>
-  </div>
-  <div>
-    Orden:
-    <button class="order-button" id="order_date_asc">Fecha creciente</button>
-    <button class="order-button" id="order_date_desc">Fecha decreciente</button>
-    <button class="order-button" id="order_size_asc">Tamaño claim creciente</button>
-    <button class="order-button" id="order_size_desc">Tamaño claim decreciente</button>
+    <div class="order">
+      Orden:
+      <button class="order-button" id="order_date_asc">Fecha creciente</button>
+      <button class="order-button" id="order_date_desc">Fecha decreciente</button>
+      <button class="order-button" id="order_size_asc">Tamaño claim creciente</button>
+      <button class="order-button" id="order_size_desc">Tamaño claim decreciente</button>
+    </div>
   </div>
   <div id="results">
 
+  </div>
+  <div id="modal_back"></div>
+  <div id="modal">
+    <div id="modal_content">
+
+    </div>
   </div>
 </body>
 
