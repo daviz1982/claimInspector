@@ -1,5 +1,5 @@
 import './css/index.css';
-import json from './20220131_marker_world.json';
+import json from './20220304_marker_world.json';
 let arrResults = [];
 
 // let json = {};
@@ -67,6 +67,7 @@ const filterMap = ({ mapData, numDays = 5 }) => {
         z: e.z,
       });
       arrResults.push({
+        user: e.label,
         claimSize,
         date: fecha,
         text: `
@@ -129,9 +130,8 @@ const calculateClaimSize = ({ x, z }) => {
 };
 
 const showResults = () => {
-  document.getElementById('results').innerHTML = `<h3>${
-    arrResults.length
-  } resultados:</h3><ul>${printArrResults()}</ul>`;
+  document.getElementById('results').innerHTML = `<h3>${arrResults.length
+    } resultados:</h3><ul>${printArrResults()}</ul>`;
   bindMapLinks();
 };
 
@@ -150,20 +150,6 @@ const bindMapLinks = () => {
     });
   });
 };
-
-document.getElementById('search').addEventListener('click', () => {
-  const numDays = document.getElementById('numDays').value;
-  // json = window.jsonImported;
-  arrResults = [];
-  cleanPreviousResults();
-  // getRemoteMap(urlRemoteMap).then((json) => {
-  filterMap({
-    mapData: parseMap(json),
-    numDays,
-  });
-  showResults();
-  // });
-});
 
 const buttons = Array.from(document.getElementsByClassName('order-button'));
 buttons.forEach((button) => {
@@ -227,3 +213,60 @@ const closeModal = () => {
   document.getElementById('modal_back').style.display = 'none';
   document.getElementById('modal').style.display = 'none';
 };
+
+document.getElementById('search').addEventListener('click', () => {
+  const numDays = document.getElementById('numDays').value;
+  // json = window.jsonImported;
+  arrResults = [];
+  cleanPreviousResults();
+  // getRemoteMap(urlRemoteMap).then((json) => {
+  filterMap({
+    mapData: parseMap(json),
+    numDays,
+  });
+  showResults();
+  // });
+});
+
+const getBlockNumberByUser = () => {
+  const mapData = parseMap(json);
+  let playerData = [];
+  let playerList = [];
+  for (const e of mapData) {
+    const { label, x, z } = e;
+    if (!playerList.includes(label)) {
+      playerList.push(label)
+      playerData.push({
+        label,
+        size: calculateClaimSize({ x, z })
+      })
+    } else {
+      const found = playerData.find(item => item.label === label)
+      found.size += calculateClaimSize({ x, z })
+    }
+  }
+  playerData = playerData.sort((a, b) => b.size - a.size)
+  return playerData;
+}
+
+document.getElementById('top_players').addEventListener('click', () => {
+  let list = ''
+  const top = getBlockNumberByUser()
+  const element = document.getElementById('results')
+  top.forEach(({ label, size }) => { list += `<li><strong>${label}:</strong><span>${size}</span></li>` })
+  element.innerHTML = `<ol>${list}</ol>`
+})
+
+const getClaimsByPlayer = () => {
+  //arrResults = arrResults.filter()
+  console.log(arrResults);
+}
+
+document.getElementById('claims_player').addEventListener('click', () => {
+  arrResults = [];
+  filterMap({
+    mapData: parseMap(json),
+    numDays: 100,
+  });
+  getClaimsByPlayer()
+})

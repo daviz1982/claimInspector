@@ -16,6 +16,8 @@ body h1 {
 }
 
 .form {
+  display: flex;
+  gap: .5rem;
   padding: 10px;
 }
 
@@ -23,9 +25,30 @@ body h1 {
   margin-top: .6rem;
 }
 
+
+.secondary_form {
+  border-left: 1px solid #666;
+  padding-left: .5rem;
+}
+
 #results ul {
   margin: 0;
   padding: 0;
+}
+
+#results li {
+  line-height: 1.4rem;
+}
+
+#results li>strong {
+  display: inline-block;
+  width: 160px;
+}
+
+#results li>strong + span {
+  display: inline-block;
+  text-align: right;
+  width: 65px;
 }
 
 .claim {

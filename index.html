@@ -11,15 +11,24 @@
 <body>
   <h1>Buscador de Claims</h1>
   <div class="form">
-    <label for="numDays">Numero de días</label>
-    <input id="numDays" type="number" value="1">
-    <button id="search">Buscar</button>
-    <div class="order">
-      Orden:
-      <button class="order-button" id="order_date_asc">Fecha creciente</button>
-      <button class="order-button" id="order_date_desc">Fecha decreciente</button>
-      <button class="order-button" id="order_size_asc">Tamaño claim creciente</button>
-      <button class="order-button" id="order_size_desc">Tamaño claim decreciente</button>
+    <div>
+      <label for="numDays">Numero de días</label>
+      <input id="numDays" type="number" value="1">
+      <button id="search">Buscar</button>
+      <div class="order">
+        Orden:
+        <button class="order-button" id="order_date_asc">Fecha creciente</button>
+        <button class="order-button" id="order_date_desc">Fecha decreciente</button>
+        <button class="order-button" id="order_size_asc">Tamaño claim creciente</button>
+        <button class="order-button" id="order_size_desc">Tamaño claim decreciente</button>
+      </div>
+    </div>
+    <div class="secondary_form">
+      <button id="top_players">Top jugadores</button>
+      <div class="order">
+        <input type="text" placeholder="Escribe nombre de jugador" id="player_name">
+        <button id="claims_player">Buscar</button>
+      </div>
     </div>
   </div>
   <div id="results">
