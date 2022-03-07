@@ -1,6 +1,7 @@
 import './css/index.css';
 import json from './20220304_marker_world.json';
 let arrResults = [];
+let parsedData = [];
 
 // let json = {};
 // const urlRemoteMap = 'https://mapa.shibacraft.net/tiles/_markers_/marker_world.json';
@@ -221,7 +222,7 @@ document.getElementById('search').addEventListener('click', () => {
   cleanPreviousResults();
   // getRemoteMap(urlRemoteMap).then((json) => {
   filterMap({
-    mapData: parseMap(json),
+    mapData: parsedData,
     numDays,
   });
   showResults();
@@ -229,7 +230,7 @@ document.getElementById('search').addEventListener('click', () => {
 });
 
 const getBlockNumberByUser = () => {
-  const mapData = parseMap(json);
+  const mapData = parsedData;
   let playerData = [];
   let playerList = [];
   for (const e of mapData) {
@@ -265,8 +266,12 @@ const getClaimsByPlayer = () => {
 document.getElementById('claims_player').addEventListener('click', () => {
   arrResults = [];
   filterMap({
-    mapData: parseMap(json),
+    mapData: parsedData,
     numDays: 100,
   });
   getClaimsByPlayer()
 })
+
+window.onload = () => {
+  parsedData = parseMap(json)
+}
