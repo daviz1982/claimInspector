@@ -23,8 +23,8 @@ body h1 {
 
 .form .order {
   margin-top: .6rem;
+  position: relative;
 }
-
 
 .secondary_form {
   border-left: 1px solid #666;
@@ -109,4 +109,27 @@ body h1 {
 #modal_content>iframe {
   height: 100%;
   width: 100%;
+}
+
+
+#autocomplete_playerlist {
+  position: absolute;
+  top: 30px;
+  left: 0;
+  min-width:100px;
+  max-height: 160px;
+  overflow: hidden;
+  overflow-y: auto;
+  background-color: beige;
+}
+
+#autocomplete-list {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.player {
+  cursor: pointer;
+  line-height: 1.65;
 }

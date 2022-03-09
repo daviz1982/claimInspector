@@ -1,7 +1,8 @@
 import './css/index.css';
-import json from './20220304_marker_world.json';
+import json from './20220308_marker_world.json';
 let arrResults = [];
 let parsedData = [];
+let playerList = [];
 
 // let json = {};
 // const urlRemoteMap = 'https://mapa.shibacraft.net/tiles/_markers_/marker_world.json';
@@ -35,7 +36,7 @@ const getRemoteMap = async (url) => {
 
 const mapPreview = (url) => `<iframe src="${url}"></iframe>`;
 
-const filterMap = ({ mapData, numDays = 5 }) => {
+const filterMap = ({ mapData, numDays = 5, callback }) => {
   const parser = new DOMParser();
   const timeInterval = numDays * 86400000;
 
@@ -84,6 +85,7 @@ const filterMap = ({ mapData, numDays = 5 }) => {
         </li>`,
       });
     }
+    callback()
   }
 
   orderResults({
@@ -152,45 +154,6 @@ const bindMapLinks = () => {
   });
 };
 
-const buttons = Array.from(document.getElementsByClassName('order-button'));
-buttons.forEach((button) => {
-  button.addEventListener('click', (evt) => {
-    let order = {
-      key: '',
-      order: '',
-    };
-    switch (evt.target.id) {
-      case 'order_date_asc':
-        order = {
-          key: 'date',
-          order: 'asc',
-        };
-        break;
-      case 'order_date_desc':
-        order = {
-          key: 'date',
-          order: 'desc',
-        };
-        break;
-      case 'order_size_asc':
-        order = {
-          key: 'claimSize',
-          order: 'asc',
-        };
-        break;
-      case 'order_size_desc':
-        order = {
-          key: 'claimSize',
-          order: 'desc',
-        };
-        break;
-    }
-    cleanPreviousResults();
-    orderResults(order);
-    showResults();
-  });
-});
-
 const openMap = (url) => {
   const back = document.getElementById('modal_back');
   const modal = document.getElementById('modal');
@@ -215,20 +178,6 @@ const closeModal = () => {
   document.getElementById('modal').style.display = 'none';
 };
 
-document.getElementById('search').addEventListener('click', () => {
-  const numDays = document.getElementById('numDays').value;
-  // json = window.jsonImported;
-  arrResults = [];
-  cleanPreviousResults();
-  // getRemoteMap(urlRemoteMap).then((json) => {
-  filterMap({
-    mapData: parsedData,
-    numDays,
-  });
-  showResults();
-  // });
-});
-
 const getBlockNumberByUser = () => {
   const mapData = parsedData;
   let playerData = [];
@@ -250,28 +199,125 @@ const getBlockNumberByUser = () => {
   return playerData;
 }
 
-document.getElementById('top_players').addEventListener('click', () => {
-  let list = ''
-  const top = getBlockNumberByUser()
-  const element = document.getElementById('results')
-  top.forEach(({ label, size }) => { list += `<li><strong>${label}:</strong><span>${size}</span></li>` })
-  element.innerHTML = `<ol>${list}</ol>`
-})
-
-const getClaimsByPlayer = () => {
-  //arrResults = arrResults.filter()
-  console.log(arrResults);
+const getClaimsByPlayer = (playerName) => {
+  arrResults = arrResults.filter(({ user }) => user.toLowerCase() === playerName)
+  showResults()
 }
 
-document.getElementById('claims_player').addEventListener('click', () => {
-  arrResults = [];
-  filterMap({
-    mapData: parsedData,
-    numDays: 100,
-  });
-  getClaimsByPlayer()
-})
+const getPlayerList = () => (
+  parsedData.map(({ label }) => label.toLowerCase())
+    .filter((value, index, self) => self.indexOf(value) === index)
+    .sort()
+)
+
+const filterPlayerList = (str) => {
+  const filteredList = playerList.filter(name => {
+    const expression = `^${str}`
+    const regex = new RegExp(expression, 'gi')
+    const match = regex.test(name)
+    return match;
+  })
+  return `<ul id="autocomplete-list"><li class="player">${filteredList.join('</li><li class="player">')}</li></ul>`
+}
+
+const fillPlayerName = (event) => {
+  const field = document.getElementById('player_name')
+  const name = event.target.textContent
+  field.value = name
+  hideAutocompletePlayerList()
+}
+
+const hideAutocompletePlayerList = () => document.getElementById('autocomplete_playerlist').remove()
 
 window.onload = () => {
   parsedData = parseMap(json)
+  playerList = getPlayerList()
+  loadListeners()
+}
+
+const loadListeners = () => {
+  document.getElementById('claims_player').addEventListener('click', () => {
+    arrResults = [];
+    filterMap({
+      mapData: parsedData,
+      numDays: 100,
+      callback: () => getClaimsByPlayer(document.getElementById('player_name').value)
+    });
+
+  })
+
+  document.getElementById('top_players').addEventListener('click', () => {
+    let list = ''
+    const top = getBlockNumberByUser()
+    const element = document.getElementById('results')
+    top.forEach(({ label, size }) => { list += `<li><strong>${label}:</strong><span>${size}</span></li>` })
+    element.innerHTML = `<ol>${list}</ol>`
+  })
+
+  document.getElementById('search').addEventListener('click', () => {
+    const numDays = document.getElementById('numDays').value;
+    // json = window.jsonImported;
+    arrResults = [];
+    cleanPreviousResults();
+    // getRemoteMap(urlRemoteMap).then((json) => {
+    filterMap({
+      mapData: parsedData,
+      numDays,
+      callback: showResults
+    });
+    // });
+  })
+
+  const field = document.getElementById('player_name');
+  field.addEventListener('keyup', event => {
+
+    const playerListContainer = document.getElementById('autocomplete_playerlist') ?? document.createElement('div')
+    playerListContainer.setAttribute("id", "autocomplete_playerlist")
+    const str = event.target.value;
+    if (str.length > 0) {
+      playerListContainer.innerHTML = filterPlayerList(str)
+      document.querySelectorAll('.player').forEach(item => item.removeEventListener('click', fillPlayerName))
+      document.querySelectorAll('.player').forEach(item => item.addEventListener('click', fillPlayerName))
+      field.insertAdjacentElement('afterend', playerListContainer)
+    }
+  })
+
+  const buttons = Array.from(document.getElementsByClassName('order-button'));
+  buttons.forEach((button) => {
+    button.addEventListener('click', (evt) => {
+      let order = {
+        key: '',
+        order: '',
+      };
+      switch (evt.target.id) {
+        case 'order_date_asc':
+          order = {
+            key: 'date',
+            order: 'asc',
+          };
+          break;
+        case 'order_date_desc':
+          order = {
+            key: 'date',
+            order: 'desc',
+          };
+          break;
+        case 'order_size_asc':
+          order = {
+            key: 'claimSize',
+            order: 'asc',
+          };
+          break;
+        case 'order_size_desc':
+          order = {
+            key: 'claimSize',
+            order: 'desc',
+          };
+          break;
+      }
+      cleanPreviousResults();
+      orderResults(order);
+      showResults();
+    });
+  });
 }
