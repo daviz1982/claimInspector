@@ -32,14 +32,26 @@ module.exports = (_, argv) => {
           },
         },
         {
-          test: /\.css$/,
-          use: [MiniCssExtractPlugin.loader, 'css-loader'],
-        },
+          test: /\.scss$/,
+          use: [
+            MiniCssExtractPlugin.loader,
+            {
+              loader: 'css-loader'
+            },
+            {
+              loader: 'sass-loader',
+              options: {
+                sourceMap: true,
+                // options...
+              }
+            }
+          ]
+        }
       ],
     },
     plugins: [
       new HtmlWebpackPlugin({ template: './index.html' }), //
-      new MiniCssExtractPlugin({ filename: 'style.css' }),
+      new MiniCssExtractPlugin({ filename: 'css/style.css' }),
     ],
     performance: {
       hints: isDevelopment ? 'warning' : 'error',
