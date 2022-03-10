@@ -1,5 +1,5 @@
-import './css/index.css';
-import json from './20220308_marker_world.json';
+import json from './20220309_marker_world.json';
+import './css/index.scss';
 let arrResults = [];
 let parsedData = [];
 let playerList = [];
@@ -85,13 +85,14 @@ const filterMap = ({ mapData, numDays = 5, callback }) => {
         </li>`,
       });
     }
-    callback()
   }
 
   orderResults({
     key: 'date',
     order: 'desc',
   });
+
+  callback()
 };
 
 const orderResults = ({ key, order }) => {
@@ -133,13 +134,21 @@ const calculateClaimSize = ({ x, z }) => {
 };
 
 const showResults = () => {
-  document.getElementById('results').innerHTML = `<h3>${arrResults.length
+  const element = document.getElementById('results')
+  element.innerHTML += `<h3>${arrResults.length
     } resultados:</h3><ul>${printArrResults()}</ul>`;
+  toggleLoader()
   bindMapLinks();
 };
 
 const cleanPreviousResults = () => {
-  document.getElementById('results').innerHTML = '';
+  const resultContent = document.querySelectorAll('#results')[0]
+  Array.from(resultContent.children).forEach((item, index) => {
+    if (!item.classList.contains('loader')) {
+      console.log(item.classList.contains('loader'))
+      resultContent.removeChild(item)
+    }
+  })
 };
 
 const bindMapLinks = () => {
@@ -165,8 +174,8 @@ const openMap = (url) => {
 
   modal.addEventListener('click', closeModal);
   document.addEventListener('keydown', (evt) => {
-    const ESC = 27;
-    if (evt.keyCode === ESC) {
+    const ESC = 'Escape';
+    if (evt.key === ESC) {
       closeModal();
     }
   });
@@ -255,10 +264,11 @@ const loadListeners = () => {
   })
 
   document.getElementById('search').addEventListener('click', () => {
+    toggleLoader()
     const numDays = document.getElementById('numDays').value;
     // json = window.jsonImported;
     arrResults = [];
-    cleanPreviousResults();
+    cleanPreviousResults()
     // getRemoteMap(urlRemoteMap).then((json) => {
     filterMap({
       mapData: parsedData,
@@ -320,4 +330,10 @@ const loadListeners = () => {
       showResults();
     });
   });
+}
+
+const toggleLoader = () => {
+  const IS_HIDDEN = 'is-hidden'
+  const loader = document.querySelector('#results > .loader')
+  loader && loader.classList.toggle(IS_HIDDEN)
 }
