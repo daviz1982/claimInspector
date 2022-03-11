@@ -10,6 +10,7 @@ body {
 body {
   width: calc(100% - 4rem);
   margin: 2rem;
+  padding-bottom: 10vh;
 }
 
 body h1 {
@@ -32,6 +33,10 @@ body h1 {
 
 .secondary_form {
   padding-left: 1rem;
+}
+
+#results {
+  position: relative;
 }
 
 #results ul {
@@ -57,7 +62,7 @@ body h1 {
 .claim {
   display: flex;
   align-items: stretch;
-  border: 1px solid #963366;
+  border: 1px solid #7a6570;
   border-radius: 5px;
   padding: 1rem;
   margin: 1rem 0;
@@ -117,13 +122,14 @@ body h1 {
 
 #autocomplete_playerlist {
   position: absolute;
-  top: 30px;
-  left: 0;
-  min-width:100px;
+  top: 40px;
+  left: 5px;
+  min-width: 200px;
   max-height: 160px;
   overflow: hidden;
   overflow-y: auto;
   background-color: beige;
+  padding: 0 1rem .5rem;
 }
 
 #autocomplete-list {
@@ -139,7 +145,15 @@ body h1 {
 
 .loader {
   @include loader;
-  @include center(7vw, -30vh);
+  // @include center(7vw, -30vh);
+  position: absolute;
   height: 4rem;
   width: 4rem;
+  margin-left: -2rem;
+  left: 50%;
+  top: 15vh;
+}
+
+.content {
+  padding-bottom: 5vh;
 }

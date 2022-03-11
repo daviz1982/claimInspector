@@ -1,4 +1,4 @@
-import json from './20220309_marker_world.json';
+import json from './20220311_marker_world.json';
 import './css/index.scss';
 let arrResults = [];
 let parsedData = [];
@@ -81,7 +81,6 @@ const filterMap = ({ mapData, numDays = 5, callback }) => {
             Caducidad: ${calculateDeadlineDate(fecha).toString()}<br/>
             Info: ${e.desc}
           </div>
-          <!-- ${mapPreview(mapUrl)} -->
         </li>`,
       });
     }
@@ -112,7 +111,8 @@ const printArrResults = () => {
 };
 
 const buildLink = ({ x, z }) => {
-  return `https://mapa.shibacraft.net/?worldname=world&zoom=10&x=${x[0]}&z=${z[0]}`;
+  return `https://mapa.shibacraft.net/#world;flat;${x[0]},64,${z[0]};10`
+  // return `https://mapa.shibacraft.net/?worldname=world&zoom=10&x=${x[0]}&z=${z[0]}`;
 };
 
 const printCoords = ({ x, z }) => `${x[0]}, ${z[0]}`;
@@ -134,18 +134,20 @@ const calculateClaimSize = ({ x, z }) => {
 };
 
 const showResults = () => {
-  const element = document.getElementById('results')
-  element.innerHTML += `<h3>${arrResults.length
-    } resultados:</h3><ul>${printArrResults()}</ul>`;
-  toggleLoader()
-  bindMapLinks();
+  setTimeout(() => {
+    const element = document.getElementById('results')
+    element.innerHTML += `<h3>${arrResults.length
+      } resultados:</h3><ul>${printArrResults()}</ul>`;
+    toggleLoader()
+    bindMapLinks();
+  }, 1000)
 };
 
 const cleanPreviousResults = () => {
   const resultContent = document.querySelectorAll('#results')[0]
   Array.from(resultContent.children).forEach((item, index) => {
     if (!item.classList.contains('loader')) {
-      console.log(item.classList.contains('loader'))
+      // console.log(item.classList.contains('loader'))
       resultContent.removeChild(item)
     }
   })
@@ -156,7 +158,7 @@ const bindMapLinks = () => {
   modalLinks.forEach((link) => {
     link.addEventListener('click', (event) => {
       event.preventDefault();
-      console.log(event.target);
+      // console.log(event.target);
       const url = event.target.href;
       openMap(url);
     });
@@ -210,6 +212,7 @@ const getBlockNumberByUser = () => {
 
 const getClaimsByPlayer = (playerName) => {
   arrResults = arrResults.filter(({ user }) => user.toLowerCase() === playerName)
+  cleanPreviousResults()
   showResults()
 }
 
@@ -221,7 +224,7 @@ const getPlayerList = () => (
 
 const filterPlayerList = (str) => {
   const filteredList = playerList.filter(name => {
-    const expression = `^${str}`
+    const expression = `${str}`
     const regex = new RegExp(expression, 'gi')
     const match = regex.test(name)
     return match;
@@ -247,6 +250,8 @@ window.onload = () => {
 const loadListeners = () => {
   document.getElementById('claims_player').addEventListener('click', () => {
     arrResults = [];
+    cleanPreviousResults()
+    toggleLoader()
     filterMap({
       mapData: parsedData,
       numDays: 100,
@@ -286,9 +291,9 @@ const loadListeners = () => {
     const str = event.target.value;
     if (str.length > 0) {
       playerListContainer.innerHTML = filterPlayerList(str)
+      field.insertAdjacentElement('afterend', playerListContainer)
       document.querySelectorAll('.player').forEach(item => item.removeEventListener('click', fillPlayerName))
       document.querySelectorAll('.player').forEach(item => item.addEventListener('click', fillPlayerName))
-      field.insertAdjacentElement('afterend', playerListContainer)
     }
   })
 
