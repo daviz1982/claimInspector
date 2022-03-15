@@ -104,12 +104,6 @@ const orderResults = ({ key, order }) => {
   });
 };
 
-const printArrResults = () => {
-  let str = '';
-  arrResults.forEach((el) => (str += el.text));
-  return str;
-};
-
 const buildLink = ({ x, z }) => {
   return `https://mapa.shibacraft.net/#world;flat;${x[0]},64,${z[0]};10`
   // return `https://mapa.shibacraft.net/?worldname=world&zoom=10&x=${x[0]}&z=${z[0]}`;
@@ -119,7 +113,7 @@ const printCoords = ({ x, z }) => `${x[0]}, ${z[0]}`;
 
 const calculateTime = ({ claimDate, interval }) => {
   const now = new Date().valueOf();
-  const deadlineDate = now - 45 * 86400000;
+  const deadlineDate = now - 45 * 86400 * 1000;
   const limitDate = deadlineDate + interval;
   return claimDate - limitDate;
 };
@@ -137,13 +131,14 @@ const showResults = () => {
   setTimeout(() => {
     const element = document.getElementById('results')
     element.innerHTML += `<h3>${arrResults.length
-      } resultados:</h3><ul>${printArrResults()}</ul>`;
-    toggleLoader()
+      } resultados:</h3><ul>${arrResults.map(({ text }) => text).join('')}</ul>`;
     bindMapLinks();
-  }, 1000)
+    toggleLoader();
+  }, 500);
 };
 
 const cleanPreviousResults = () => {
+  toggleLoader()
   const resultContent = document.querySelectorAll('#results')[0]
   Array.from(resultContent.children).forEach((item, index) => {
     if (!item.classList.contains('loader')) {
@@ -269,7 +264,6 @@ const loadListeners = () => {
   })
 
   document.getElementById('search').addEventListener('click', () => {
-    toggleLoader()
     const numDays = document.getElementById('numDays').value;
     // json = window.jsonImported;
     arrResults = [];
@@ -292,8 +286,10 @@ const loadListeners = () => {
     if (str.length > 0) {
       playerListContainer.innerHTML = filterPlayerList(str)
       field.insertAdjacentElement('afterend', playerListContainer)
-      document.querySelectorAll('.player').forEach(item => item.removeEventListener('click', fillPlayerName))
-      document.querySelectorAll('.player').forEach(item => item.addEventListener('click', fillPlayerName))
+      document.querySelectorAll('#autocomplete_playerlist .player').forEach(item => {
+        item.removeEventListener('click', fillPlayerName);
+        item.addEventListener('click', fillPlayerName)
+      });
     }
   })
 
