@@ -3,6 +3,12 @@ import './css/index.scss';
 let arrResults = [];
 let parsedData = [];
 let playerList = [];
+const type = {
+  CLAIM: 'griefdefender:basic',
+  SUBCLAIM: 'griefdefender:subdivision',
+  TOWN: 'griefdefender:town'
+};
+let showSubclaims = false;
 
 // let json = {};
 // const urlRemoteMap = 'https://mapa.shibacraft.net/tiles/_markers_/marker_world.json';
@@ -37,20 +43,25 @@ const getRemoteMap = async (url) => {
 const mapPreview = (url) => `<iframe src="${url}"></iframe>`;
 
 const filterMap = ({ mapData, numDays = 5, callback }) => {
-  const parser = new DOMParser();
+
   const timeInterval = numDays * 86400000;
 
   for (const e of mapData) {
     if (e.label === 'administrador') {
       continue;
     }
-    const regex = new RegExp(/login: (.*)Manager/, 'gi');
-    const str = parser.parseFromString(e.desc, 'text/html').body.firstChild.firstChild.textContent;
-    let dateStr = regex.exec(str);
+    let dateStr = findDataInDesc({ text: e.desc, regex: new RegExp(/login: (.*)Manager/, 'gi') });
+    let claimType = findDataInDesc({ text: e.desc, regex: new RegExp(`(${type.CLAIM}|${type.SUBCLAIM}|${type.TOWN})`, 'gi') });
     if (dateStr) {
       dateStr = dateStr[1];
     } else {
       return console.error(str);
+    }
+    if (claimType) {
+      claimType = claimType[1]
+    }
+    if (claimType === type.SUBCLAIM && !showSubclaims) {
+      continue;
     }
     const [w, m, d, h, t, y] = dateStr.split(' ');
     const fechaStr = `${d} ${m} ${y} ${h}`;
@@ -93,6 +104,12 @@ const filterMap = ({ mapData, numDays = 5, callback }) => {
 
   callback()
 };
+
+const findDataInDesc = ({ text, regex }) => {
+  const parser = new DOMParser();
+  const str = parser.parseFromString(text, 'text/html').body.firstChild.firstChild.textContent;
+  return regex.exec(str);
+}
 
 const orderResults = ({ key, order }) => {
   arrResults.sort((a, b) => {
@@ -189,7 +206,14 @@ const getBlockNumberByUser = () => {
   let playerData = [];
   let playerList = [];
   for (const e of mapData) {
-    const { label, x, z } = e;
+    const { label, x, z, desc } = e;
+    let claimType = findDataInDesc({ text: desc, regex: new RegExp(`(${type.CLAIM}|${type.SUBCLAIM})`, 'gi') });
+    if (claimType) {
+      claimType = claimType[1]
+    }
+    if (claimType === type.SUBCLAIM) {
+      continue;
+    }
     if (!playerList.includes(label)) {
       playerList.push(label)
       playerData.push({
