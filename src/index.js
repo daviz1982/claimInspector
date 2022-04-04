@@ -1,4 +1,4 @@
-import json from './20220311_marker_world.json';
+import json from './20220404_marker_world.json';
 import './css/index.scss';
 let arrResults = [];
 let parsedData = [];
@@ -86,11 +86,11 @@ const filterMap = ({ mapData, numDays = 5, callback }) => {
         text: `
         <li class="claim">
           <div class="claim-info">
-            User: ${e.label}<br/>
-            Coords: <a href="${mapUrl}" class="open_modal" target="_blank">${printCoords({ x: e.x, z: e.z })}</a><br/>
-            Tamaño claim: ${claimSize}<br/>
-            Caducidad: ${calculateDeadlineDate(fecha).toString()}<br/>
-            Info: ${e.desc}
+            <label>User:<label> ${e.label}<br/>
+            <label>Coords:<label> <a href="${mapUrl}" class="open_modal" target="_blank">${printCoords({ x: e.x, z: e.z })}</a><br/>
+            <label>Tamaño claim:<label> ${claimSize}<br/>
+            <label>Caducidad:<label> ${calculateDeadlineDate(fecha).toString()}<br/>
+            <details><summary>Info:</summary>${e.desc}</details>
           </div>
         </li>`,
       });
@@ -207,7 +207,7 @@ const getBlockNumberByUser = () => {
   let playerList = [];
   for (const e of mapData) {
     const { label, x, z, desc } = e;
-    let claimType = findDataInDesc({ text: desc, regex: new RegExp(`(${type.CLAIM}|${type.SUBCLAIM})`, 'gi') });
+    let claimType = findDataInDesc({ text: desc, regex: new RegExp(`(${type.CLAIM}|${type.SUBCLAIM}|${type.TOWN})`, 'gi') });
     if (claimType) {
       claimType = claimType[1]
     }
@@ -362,3 +362,17 @@ const toggleLoader = () => {
   const loader = document.querySelector('#results > .loader')
   loader && loader.classList.toggle(IS_HIDDEN)
 }
+
+
+// TODO LIST:
+
+// Change 'Claim' info by creating a kind of "card" where info is more graphic
+//    eg: user name like in a profile picture (random generated character illustrations)
+//        user info encapsulated in a "details / summary" element
+//        for coords, we can use an earth like image and make it clickable to open a modal with the map
+//        for claim size, we can use a color scale (red to green, or kind of)
+//        finally to show the type (claim/subclaim) and also make a filter in the top bar buttons (indicating wether to show up or not)
+
+// When showing player's claims, show total of claimblocks 
+
+// Fix sum of claimblocks: not counting the subclaims
