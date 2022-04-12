@@ -1,5 +1,6 @@
-import json from './20220404_marker_world.json';
+import json from './20220412_marker_world.json';
 import './css/index.scss';
+
 let arrResults = [];
 let parsedData = [];
 let playerList = [];
@@ -8,16 +9,14 @@ const type = {
   SUBCLAIM: 'griefdefender:subdivision',
   TOWN: 'griefdefender:town'
 };
-let showSubclaims = false;
+const showSubclaims = false;
 
 // let json = {};
 // const urlRemoteMap = 'https://mapa.shibacraft.net/tiles/_markers_/marker_world.json';
 
 const parseMap = (jsonData) => {
-  const areas = jsonData.sets['griefdefender.markerset'].areas;
-  let data = Object.keys(areas).map((el) => {
-    return areas[el];
-  });
+  const { areas } = jsonData.sets['griefdefender.markerset'];
+  let data = Object.keys(areas).map((el) => areas[el]);
   data = data.map((el) => {
     const { desc, label, x, z } = el;
     return {
@@ -30,40 +29,78 @@ const parseMap = (jsonData) => {
   return data;
 };
 
-const getRemoteMap = async (url) => {
-  const response = await fetch(url);
-  if (response.ok) {
-    const jsonValue = await response.json();
-    return Promise.resolve(jsonValue);
-  } else {
-    return Promise.reject('Not found');
-  }
-};
+// const getRemoteMap = async (url) => {
+//   const response = await fetch(url);
+//   if (response.ok) {
+//     const jsonValue = await response.json();
+//     return Promise.resolve(jsonValue);
+//   }
+//   return Promise.reject('Not found');
+
+// };
 
 const mapPreview = (url) => `<iframe src="${url}"></iframe>`;
 
-const filterMap = ({ mapData, numDays = 5, callback }) => {
+const findDataInDesc = ({ text, regex }) => {
+  const parser = new DOMParser();
+  const str = parser.parseFromString(text, 'text/html').body.firstChild.firstChild.textContent;
+  return regex.exec(str);
+}
 
+const orderResults = ({ key, order }) => {
+  arrResults.sort((a, b) => {
+    if (order === 'asc') {
+      return a[key] - b[key];
+    }
+    return b[key] - a[key];
+
+  });
+};
+
+const calculateClaimSize = ({ x, z }) => (x[2] - x[0]) * (z[2] - z[0]);
+
+const calculateTime = ({ claimDate, interval }) => {
+  const now = new Date().valueOf();
+  const deadlineDate = now - 45 * 86400 * 1000;
+  const limitDate = deadlineDate + interval;
+  return claimDate - limitDate;
+};
+
+const calculateDeadlineDate = (claimDate) => {
+  const fortyFiveDaysToMs = 45 * 86400 * 1000;
+  return new Date(claimDate + fortyFiveDaysToMs);
+};
+
+const buildLink = ({ x, z }) =>
+  `https://mapa.shibacraft.net/#world;flat;${x[0]},64,${z[0]};10`
+  // return `https://mapa.shibacraft.net/?worldname=world&zoom=10&x=${x[0]}&z=${z[0]}`;
+  ;
+
+const printCoords = ({ x, z }) => `${x[0]}, ${z[0]}`;
+
+const filterMap = ({ mapData, numDays = 5, callback }) => {
   const timeInterval = numDays * 86400000;
 
-  for (const e of mapData) {
+  // for (const e of mapData) {
+  mapData.forEach(e => {
     if (e.label === 'administrador') {
-      continue;
+      return
     }
     let dateStr = findDataInDesc({ text: e.desc, regex: new RegExp(/login: (.*)Manager/, 'gi') });
     let claimType = findDataInDesc({ text: e.desc, regex: new RegExp(`(${type.CLAIM}|${type.SUBCLAIM}|${type.TOWN})`, 'gi') });
     if (dateStr) {
-      dateStr = dateStr[1];
+      [, dateStr] = dateStr;
     } else {
-      return console.error(str);
+      // console.error("Error getting date")
+      return
     }
     if (claimType) {
-      claimType = claimType[1]
+      [, claimType] = claimType
     }
     if (claimType === type.SUBCLAIM && !showSubclaims) {
-      continue;
+      return
     }
-    const [w, m, d, h, t, y] = dateStr.split(' ');
+    const [, m, d, h, , y] = dateStr.split(' ');
     const fechaStr = `${d} ${m} ${y} ${h}`;
     const fecha = Date.parse(fechaStr);
     const diffTime = calculateTime({
@@ -95,7 +132,7 @@ const filterMap = ({ mapData, numDays = 5, callback }) => {
         </li>`,
       });
     }
-  }
+  })
 
   orderResults({
     key: 'date',
@@ -105,59 +142,16 @@ const filterMap = ({ mapData, numDays = 5, callback }) => {
   callback()
 };
 
-const findDataInDesc = ({ text, regex }) => {
-  const parser = new DOMParser();
-  const str = parser.parseFromString(text, 'text/html').body.firstChild.firstChild.textContent;
-  return regex.exec(str);
+const toggleLoader = () => {
+  const IS_HIDDEN = 'is-hidden'
+  const loader = document.querySelector('#results > .loader')
+  return loader && loader.classList.toggle(IS_HIDDEN)
 }
-
-const orderResults = ({ key, order }) => {
-  arrResults.sort((a, b) => {
-    if (order === 'asc') {
-      return a[key] - b[key];
-    } else {
-      return b[key] - a[key];
-    }
-  });
-};
-
-const buildLink = ({ x, z }) => {
-  return `https://mapa.shibacraft.net/#world;flat;${x[0]},64,${z[0]};10`
-  // return `https://mapa.shibacraft.net/?worldname=world&zoom=10&x=${x[0]}&z=${z[0]}`;
-};
-
-const printCoords = ({ x, z }) => `${x[0]}, ${z[0]}`;
-
-const calculateTime = ({ claimDate, interval }) => {
-  const now = new Date().valueOf();
-  const deadlineDate = now - 45 * 86400 * 1000;
-  const limitDate = deadlineDate + interval;
-  return claimDate - limitDate;
-};
-
-const calculateDeadlineDate = (claimDate) => {
-  const fortyFiveDaysToMs = 45 * 86400 * 1000;
-  return new Date(claimDate + fortyFiveDaysToMs);
-};
-
-const calculateClaimSize = ({ x, z }) => {
-  return (x[2] - x[0]) * (z[2] - z[0]);
-};
-
-const showResults = () => {
-  setTimeout(() => {
-    const element = document.getElementById('results')
-    element.innerHTML += `<h3>${arrResults.length
-      } resultados:</h3><ul>${arrResults.map(({ text }) => text).join('')}</ul>`;
-    bindMapLinks();
-    toggleLoader();
-  }, 500);
-};
 
 const cleanPreviousResults = () => {
   toggleLoader()
   const resultContent = document.querySelectorAll('#results')[0]
-  Array.from(resultContent.children).forEach((item, index) => {
+  Array.from(resultContent.children).forEach((item) => {
     if (!item.classList.contains('loader')) {
       // console.log(item.classList.contains('loader'))
       resultContent.removeChild(item)
@@ -165,16 +159,10 @@ const cleanPreviousResults = () => {
   })
 };
 
-const bindMapLinks = () => {
-  const modalLinks = Array.from(document.getElementsByClassName('open_modal'));
-  modalLinks.forEach((link) => {
-    link.addEventListener('click', (event) => {
-      event.preventDefault();
-      // console.log(event.target);
-      const url = event.target.href;
-      openMap(url);
-    });
-  });
+const closeModal = () => {
+  document.getElementById('modal_content').innerHTML = '';
+  document.getElementById('modal_back').style.display = 'none';
+  document.getElementById('modal').style.display = 'none';
 };
 
 const openMap = (url) => {
@@ -195,24 +183,46 @@ const openMap = (url) => {
   });
 };
 
-const closeModal = () => {
-  document.getElementById('modal_content').innerHTML = '';
-  document.getElementById('modal_back').style.display = 'none';
-  document.getElementById('modal').style.display = 'none';
+const bindMapLinks = () => {
+  const modalLinks = Array.from(document.getElementsByClassName('open_modal'));
+  modalLinks.forEach((link) => {
+    link.addEventListener('click', (event) => {
+      event.preventDefault();
+      // console.log(event.target);
+      const url = event.target.href;
+      openMap(url);
+    });
+  });
 };
+
+const showResults = () => {
+  setTimeout(() => {
+    const element = document.getElementById('results')
+    element.innerHTML += `<h3>${arrResults.length
+      } resultados:</h3><ul>${arrResults.map(({ text }) => text).join('')}</ul>`;
+    bindMapLinks();
+    toggleLoader();
+  }, 500);
+};
+
+
+
+
 
 const getBlockNumberByUser = () => {
   const mapData = parsedData;
   let playerData = [];
-  let playerList = [];
-  for (const e of mapData) {
+  // const playerList = [];
+  // for (const e of mapData) {
+  mapData.forEach(e => {
+
     const { label, x, z, desc } = e;
     let claimType = findDataInDesc({ text: desc, regex: new RegExp(`(${type.CLAIM}|${type.SUBCLAIM}|${type.TOWN})`, 'gi') });
     if (claimType) {
-      claimType = claimType[1]
+      [, claimType] = claimType
     }
     if (claimType === type.SUBCLAIM) {
-      continue;
+      return
     }
     if (!playerList.includes(label)) {
       playerList.push(label)
@@ -224,7 +234,8 @@ const getBlockNumberByUser = () => {
       const found = playerData.find(item => item.label === label)
       found.size += calculateClaimSize({ x, z })
     }
-  }
+  })
+
   playerData = playerData.sort((a, b) => b.size - a.size)
   return playerData;
 }
@@ -251,19 +262,13 @@ const filterPlayerList = (str) => {
   return `<ul id="autocomplete-list"><li class="player">${filteredList.join('</li><li class="player">')}</li></ul>`
 }
 
+const hideAutocompletePlayerList = () => document.getElementById('autocomplete_playerlist').remove()
+
 const fillPlayerName = (event) => {
   const field = document.getElementById('player_name')
   const name = event.target.textContent
   field.value = name
   hideAutocompletePlayerList()
-}
-
-const hideAutocompletePlayerList = () => document.getElementById('autocomplete_playerlist').remove()
-
-window.onload = () => {
-  parsedData = parseMap(json)
-  playerList = getPlayerList()
-  loadListeners()
 }
 
 const loadListeners = () => {
@@ -344,6 +349,7 @@ const loadListeners = () => {
           };
           break;
         case 'order_size_desc':
+        default:
           order = {
             key: 'claimSize',
             order: 'desc',
@@ -357,10 +363,10 @@ const loadListeners = () => {
   });
 }
 
-const toggleLoader = () => {
-  const IS_HIDDEN = 'is-hidden'
-  const loader = document.querySelector('#results > .loader')
-  loader && loader.classList.toggle(IS_HIDDEN)
+window.onload = () => {
+  parsedData = parseMap(json)
+  playerList = getPlayerList()
+  loadListeners()
 }
 
 
@@ -373,6 +379,6 @@ const toggleLoader = () => {
 //        for claim size, we can use a color scale (red to green, or kind of)
 //        finally to show the type (claim/subclaim) and also make a filter in the top bar buttons (indicating wether to show up or not)
 
-// When showing player's claims, show total of claimblocks 
+// When showing player's claims, show total of claimblocks
 
 // Fix sum of claimblocks: not counting the subclaims
