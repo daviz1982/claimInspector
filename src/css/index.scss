@@ -64,12 +64,12 @@ body h1 {
   align-items: stretch;
   border: 1px solid #7a6570;
   border-radius: 5px;
-  padding: 1rem;
   margin: 1rem 0;
   list-style: none;
 }
 
 .claim-info {
+  padding: 1rem;
   width: 50%;
 }
 
@@ -128,4 +128,9 @@ body h1 {
 
 .content {
   padding-bottom: 5vh;
+}
+
+.ribbon {
+  width: 0.6rem;
+  // border-radius: 1rem;
 }

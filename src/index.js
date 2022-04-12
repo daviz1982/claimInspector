@@ -10,6 +10,14 @@ const type = {
   TOWN: 'griefdefender:town'
 };
 const showSubclaims = false;
+const sizeColorScale = {
+  0: 0,
+  300: 30,
+  1500: 60,
+  4000: 90,
+  10000: 120,
+  20000: 135
+}
 
 // let json = {};
 // const urlRemoteMap = 'https://mapa.shibacraft.net/tiles/_markers_/marker_world.json';
@@ -36,7 +44,6 @@ const parseMap = (jsonData) => {
 //     return Promise.resolve(jsonValue);
 //   }
 //   return Promise.reject('Not found');
-
 // };
 
 const mapPreview = (url) => `<iframe src="${url}"></iframe>`;
@@ -78,10 +85,17 @@ const buildLink = ({ x, z }) =>
 
 const printCoords = ({ x, z }) => `${x[0]}, ${z[0]}`;
 
+const getColorScale = size => {
+  const breakpoints = Object.keys(sizeColorScale).filter(key => {
+    const numkey = +key
+    const response = numkey <= size
+    return response
+  })
+  return sizeColorScale[breakpoints[breakpoints.length - 1]]
+}
+
 const filterMap = ({ mapData, numDays = 5, callback }) => {
   const timeInterval = numDays * 86400000;
-
-  // for (const e of mapData) {
   mapData.forEach(e => {
     if (e.label === 'administrador') {
       return
@@ -122,11 +136,12 @@ const filterMap = ({ mapData, numDays = 5, callback }) => {
         date: fecha,
         text: `
         <li class="claim">
+          <div class="ribbon" style="background-color: hsl(${getColorScale(claimSize)},100%,50%)"></div>
           <div class="claim-info">
-            <label>User:<label> ${e.label}<br/>
-            <label>Coords:<label> <a href="${mapUrl}" class="open_modal" target="_blank">${printCoords({ x: e.x, z: e.z })}</a><br/>
-            <label>Tamaño claim:<label> ${claimSize}<br/>
-            <label>Caducidad:<label> ${calculateDeadlineDate(fecha).toString()}<br/>
+            <label>User: ${e.label}</label><br/>
+            <label>Coords: <a href="${mapUrl}" class="open_modal" target="_blank">${printCoords({ x: e.x, z: e.z })}</a></label><br/>
+            <label>Tamaño claim: ${claimSize}</label><br/>
+            <label>Caducidad: ${calculateDeadlineDate(fecha).toString()}</label><br/>
             <details><summary>Info:</summary>${e.desc}</details>
           </div>
         </li>`,
@@ -205,10 +220,6 @@ const showResults = () => {
   }, 500);
 };
 
-
-
-
-
 const getBlockNumberByUser = () => {
   const mapData = parsedData;
   let playerData = [];
@@ -281,7 +292,6 @@ const loadListeners = () => {
       numDays: 100,
       callback: () => getClaimsByPlayer(document.getElementById('player_name').value)
     });
-
   })
 
   document.getElementById('top_players').addEventListener('click', () => {
