@@ -86,11 +86,7 @@ const buildLink = ({ x, z }) =>
 const printCoords = ({ x, z }) => `${x[0]}, ${z[0]}`;
 
 const getColorScale = size => {
-  const breakpoints = Object.keys(sizeColorScale).filter(key => {
-    const numkey = +key
-    const response = numkey <= size
-    return response
-  })
+  const breakpoints = Object.keys(sizeColorScale).filter(key => (+key <= size))
   return sizeColorScale[breakpoints[breakpoints.length - 1]]
 }
 
