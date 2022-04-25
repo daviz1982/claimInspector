@@ -31,6 +31,9 @@
           <button class="button is-small order-button" id="order_size_asc">Tamaño claim creciente</button>
           <button class="button is-small order-button" id="order_size_desc">Tamaño claim decreciente</button>
         </div>
+        <div class="order box has-background-success-light">
+          <label for="only-large"><input type="checkbox" id="only-large" name="only_large_claims"> Mostrar solo claims mayores de <input type="number" id="min-size" class="-input" name="min_size" value="4000"></label>
+        </div>
       </div>
       <div class="secondary_form box has-background-success-light">
         <button id="top_players" class="button is-large is-warning">Top jugadores</button>
@@ -52,9 +55,7 @@
   <div class="modal" id="modal">
     <div id="modal_back" class="modal-background"></div>
       <div class="modal-content" id="modal_content">
-        <div class="box">
-          <p>Mis cojones</p>
-        </div>
+
       </div>
     <button class="modal-close is-large" aria-label="close"></button>
   </div>

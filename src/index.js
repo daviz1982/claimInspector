@@ -1,9 +1,11 @@
-import json from './20220412_marker_world.json';
+import json from './20220423_marker_world.json';
 import './css/index.scss';
 
 let arrResults = [];
 let parsedData = [];
 let playerList = [];
+let minClaimSize = 4000;
+let filterLargeClaims = false;
 const type = {
   CLAIM: 'griefdefender:basic',
   SUBCLAIM: 'griefdefender:subdivision',
@@ -126,7 +128,7 @@ const filterMap = ({ mapData, numDays = 5, callback }) => {
         x: e.x,
         z: e.z,
       });
-      arrResults.push({
+      const claimInfo = {
         user: e.label,
         claimSize,
         date: fecha,
@@ -141,7 +143,8 @@ const filterMap = ({ mapData, numDays = 5, callback }) => {
             <details><summary>Info:</summary>${e.desc}</details>
           </div>
         </li>`,
-      });
+      }
+      arrResults.push(claimInfo);
     }
   })
 
@@ -207,10 +210,11 @@ const bindMapLinks = () => {
 };
 
 const showResults = () => {
+  const filterListResult = arrResults.filter(item => !filterLargeClaims ? true : item.claimSize > minClaimSize)
   setTimeout(() => {
     const element = document.getElementById('results')
-    element.innerHTML += `<h3>${arrResults.length
-      } resultados:</h3><ul>${arrResults.map(({ text }) => text).join('')}</ul>`;
+    element.innerHTML += `<h3>${filterListResult.length
+      } resultados:</h3><ul>${filterListResult.map(({ text }) => text).join('')}</ul>`;
     bindMapLinks();
     toggleLoader();
   }, 500);
@@ -366,6 +370,19 @@ const loadListeners = () => {
       orderResults(order);
       showResults();
     });
+  });
+
+  document.getElementById("only-large").addEventListener("change", evt => {
+    filterLargeClaims = evt.target.checked;
+    minClaimSize = +(document.getElementById("min-size").value)
+    cleanPreviousResults();
+    showResults();
+  });
+
+  document.getElementById("min-size").addEventListener("blur", evt => {
+    minClaimSize = +(evt.target.value)
+    cleanPreviousResults();
+    showResults();
   });
 }
 
