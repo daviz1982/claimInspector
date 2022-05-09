@@ -1,4 +1,4 @@
-import json from './20220423_marker_world.json';
+import json from './20220425_marker_world.json';
 import './css/index.scss';
 
 let arrResults = [];
@@ -66,7 +66,7 @@ const orderResults = ({ key, order }) => {
   });
 };
 
-const calculateClaimSize = ({ x, z }) => (x[2] - x[0]) * (z[2] - z[0]);
+const calculateClaimSize = ({ x, z }) => ({ x: (x[2] - x[0]), z: (z[2] - z[0]), size: (x[2] - x[0]) * (z[2] - z[0]) });
 
 const calculateTime = ({ claimDate, interval }) => {
   const now = new Date().valueOf();
@@ -80,15 +80,14 @@ const calculateDeadlineDate = (claimDate) => {
   return new Date(claimDate + fortyFiveDaysToMs);
 };
 
-const buildLink = ({ x, z }) =>
-  `https://mapa.shibacraft.net/#world;flat;${x[0]},64,${z[0]};10`
-  // return `https://mapa.shibacraft.net/?worldname=world&zoom=10&x=${x[0]}&z=${z[0]}`;
-  ;
+const calculateCenter = ({ x, z }) => ({ x: (x[2] + x[0]) / 2, z: (z[2] + z[0]) / 2 })
 
-const printCoords = ({ x, z }) => `${x[0]}, ${z[0]}`;
+const buildLink = ({ x, z }) => `https://mapa.shibacraft.net/#world;flat;${x},64,${z};10`
+
+const printCoords = ({ x, z }) => ({ NW: `${x[0]}, ${z[0]}`, NE: `${x[1]}, ${z[1]}`, SE: `${x[2]}, ${z[2]}`, SW: `${x[3]}, ${z[3]}`, center: `${(x[2] + x[0]) / 2}, ${(z[2] + z[0]) / 2}` });
 
 const getColorScale = size => {
-  const breakpoints = Object.keys(sizeColorScale).filter(key => (+key <= size))
+  const breakpoints = Object.keys(sizeColorScale).filter(key => +(key) <= size)
   return sizeColorScale[breakpoints[breakpoints.length - 1]]
 }
 
@@ -119,26 +118,21 @@ const filterMap = ({ mapData, numDays = 5, callback }) => {
       claimDate: fecha,
       interval: timeInterval,
     });
-    const claimSize = calculateClaimSize({
-      x: e.x,
-      z: e.z,
-    });
+    const claimSize = calculateClaimSize(e);
     if (diffTime < 0) {
-      const mapUrl = buildLink({
-        x: e.x,
-        z: e.z,
-      });
+      const center = calculateCenter(e);
+      const mapUrl = buildLink(center);
       const claimInfo = {
         user: e.label,
-        claimSize,
+        claimSize: claimSize.size,
         date: fecha,
         text: `
         <li class="claim">
-          <div class="ribbon" style="background-color: hsl(${getColorScale(claimSize)},100%,50%)"></div>
+          <div class="ribbon" style="background-color: hsl(${getColorScale(claimSize.size)}, 100%, 50%)"></div>
           <div class="claim-info">
             <label>User: ${e.label}</label><br/>
-            <label>Coords: <a href="${mapUrl}" class="open_modal" target="_blank">${printCoords({ x: e.x, z: e.z })}</a></label><br/>
-            <label>Tamaño claim: ${claimSize}</label><br/>
+            <label>Coords: <a href="${mapUrl}" class="open_modal" target="_blank">${printCoords(e).center}</a> (NW)</label><br/>
+            <label>Tamaño claim: ${claimSize.size} [${claimSize.x} &times; ${claimSize.z}]</label><br/>
             <label>Caducidad: ${calculateDeadlineDate(fecha).toString()}</label><br/>
             <details><summary>Info:</summary>${e.desc}</details>
           </div>
@@ -223,7 +217,7 @@ const showResults = () => {
 const getBlockNumberByUser = () => {
   const mapData = parsedData;
   let playerData = [];
-  // const playerList = [];
+  const pList = [];
   // for (const e of mapData) {
   mapData.forEach(e => {
 
@@ -235,8 +229,8 @@ const getBlockNumberByUser = () => {
     if (claimType === type.SUBCLAIM) {
       return
     }
-    if (!playerList.includes(label)) {
-      playerList.push(label)
+    if (!pList.includes(label)) {
+      pList.push(label)
       playerData.push({
         label,
         size: calculateClaimSize({ x, z })
