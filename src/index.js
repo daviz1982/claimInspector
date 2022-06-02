@@ -1,4 +1,4 @@
-import json from './20220425_marker_world.json';
+// import json from './20220425_marker_world.json';
 import './css/index.scss';
 
 let arrResults = [];
@@ -21,8 +21,8 @@ const sizeColorScale = {
   20000: 135
 }
 
-// let json = {};
-// const urlRemoteMap = 'https://mapa.shibacraft.net/tiles/_markers_/marker_world.json';
+let json = {};
+const urlRemoteMap = 'https://mapa.shibacraft.net/tiles/_markers_/marker_world.json';
 
 const parseMap = (jsonData) => {
   const { areas } = jsonData.sets['griefdefender.markerset'];
@@ -39,14 +39,14 @@ const parseMap = (jsonData) => {
   return data;
 };
 
-// const getRemoteMap = async (url) => {
-//   const response = await fetch(url);
-//   if (response.ok) {
-//     const jsonValue = await response.json();
-//     return Promise.resolve(jsonValue);
-//   }
-//   return Promise.reject('Not found');
-// };
+const getRemoteMap = async (url) => {
+  const response = await fetch(url);
+  if (response.ok) {
+    const jsonValue = await response.json();
+    return Promise.resolve(jsonValue);
+  }
+  return Promise.reject('Not found');
+};
 
 const mapPreview = (url) => `<iframe src="${url}"></iframe>`;
 
@@ -381,6 +381,7 @@ const loadListeners = () => {
 }
 
 window.onload = () => {
+  json = getRemoteMap()
   parsedData = parseMap(json)
   playerList = getPlayerList()
   loadListeners()
