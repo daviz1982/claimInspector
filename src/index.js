@@ -381,7 +381,7 @@ const loadListeners = () => {
 }
 
 window.onload = () => {
-  json = getRemoteMap()
+  json = getRemoteMap(urlRemoteMap)
   parsedData = parseMap(json)
   playerList = getPlayerList()
   loadListeners()
