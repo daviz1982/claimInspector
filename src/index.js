@@ -22,6 +22,7 @@ const sizeColorScale = {
 }
 
 let json = {};
+const proxyAntiCors = 'https://cors-anywhere.herokuapp.com/';
 const urlRemoteMap = 'https://mapa.shibacraft.net/tiles/_markers_/marker_world.json';
 
 const parseMap = (jsonData) => {
@@ -40,7 +41,9 @@ const parseMap = (jsonData) => {
 };
 
 const getRemoteMap = async (url) => {
-  const response = await fetch(url);
+  const response = await fetch(url, {
+    headers: { origin: "kartofen" }
+  });
   if (response.ok) {
     const jsonValue = await response.json();
     return Promise.resolve(jsonValue);
@@ -380,8 +383,8 @@ const loadListeners = () => {
   });
 }
 
-window.onload = () => {
-  json = getRemoteMap(urlRemoteMap)
+window.onload = async () => {
+  json = await getRemoteMap(proxyAntiCors + urlRemoteMap)
   parsedData = parseMap(json)
   playerList = getPlayerList()
   loadListeners()
