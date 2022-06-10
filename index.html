@@ -11,18 +11,18 @@
 <body>
   <div class="content">
     <h1 class="title">Buscador de Claims</h1>
-  <div class="form">
-    <div>
-      <div class="box has-background-success-light">
-        <label for="numDays" class="label">Numero de días para caducidad:</label>
-        <div class="field has-addons">
-          <p class="control">
-            <input id="numDays" class="input" type="number" value="1">
-          </p>
-          <p class="control">
-            <button id="search" class="button is-success">Buscar</button>
-          </p>
-        </div>
+    <div class="columns">
+      <div class="column">
+        <div class="box has-background-success-light">
+          <label for="numDays" class="label">Numero de días para caducidad:</label>
+          <div class="field has-addons">
+            <p class="control">
+              <input id="numDays" class="input" type="number" value="1">
+            </p>
+            <p class="control">
+              <button id="search" class="button is-success">Buscar</button>
+            </p>
+          </div>
         </div>
         <div class="order box has-background-success-light">
           <p class="label">Orden:</p>
@@ -32,19 +32,22 @@
           <button class="button is-small order-button" id="order_size_desc">Tamaño claim decreciente</button>
         </div>
         <div class="order box has-background-success-light">
-          <label for="only-large"><input type="checkbox" id="only-large" name="only_large_claims"> Mostrar solo claims mayores de <input type="number" id="min-size" class="-input" name="min_size" value="4000"></label>
+          <label for="only-large"><input type="checkbox" id="only-large" name="only_large_claims"> Mostrar solo claims
+            mayores de <input type="number" id="min-size" class="-input" name="min_size" value="4000"></label>
         </div>
       </div>
-      <div class="secondary_form box has-background-success-light">
-        <button id="top_players" class="button is-large is-warning">Top jugadores</button>
-        <div class="order">
-          <div class="field has-addons">
-          <p class="control">
-          <input type="text" class="input" placeholder="Nombre de jugador" id="player_name">
-          </p>
-          <p class="control">
-          <button id="claims_player" class="button is-success">Buscar</button>
-        </div>
+      <div class="column">
+        <div class="box has-background-success-light">
+          <button id="top_players" class="button is-large is-warning">Top jugadores</button>
+          <div class="order">
+            <div class="field has-addons">
+              <p class="control">
+                <input type="text" class="input" placeholder="Nombre de jugador" id="player_name">
+              </p>
+              <p class="control">
+                <button id="claims_player" class="button is-success">Buscar</button>
+            </div>
+          </div>
         </div>
       </div>
     </div>
@@ -54,9 +57,9 @@
   </div>
   <div class="modal" id="modal">
     <div id="modal_back" class="modal-background"></div>
-      <div class="modal-content" id="modal_content">
+    <div class="modal-content" id="modal_content">
 
-      </div>
+    </div>
     <button class="modal-close is-large" aria-label="close"></button>
   </div>
 </body>
