@@ -83,7 +83,7 @@ const calculateDeadlineDate = (claimDate) => {
 
 const calculateCenter = ({ x, z }) => ({ x: (x[2] + x[0]) / 2, z: (z[2] + z[0]) / 2 })
 
-const buildLink = ({ x, z }) => `https://mapa.shibacraft.net/#worldflat${x},64,${z}10`
+const buildLink = ({ x, z }) => `https://mapa.shibacraft.net/#world;flat;${x},64,${z};10`
 
 const printCoords = ({ x, z }) => ({ NW: `${x[0]}, ${z[0]}`, NE: `${x[1]}, ${z[1]}`, SE: `${x[2]}, ${z[2]}`, SW: `${x[3]}, ${z[3]}`, center: `${(x[2] + x[0]) / 2}, ${(z[2] + z[0]) / 2}` })
 
@@ -216,9 +216,8 @@ const getBlockNumberByUser = () => {
   const mapData = parsedData
   let playerData = []
   const pList = []
-  // for (const e of mapData) {
-  mapData.forEach(e => {
 
+  mapData.forEach(e => {
     const { label, x, z, desc } = e
     let claimType = findDataInDesc({ text: desc, regex: new RegExp(`(${type.CLAIM}|${type.SUBCLAIM}|${type.TOWN})`, 'gi') })
     if (claimType) {
@@ -231,11 +230,13 @@ const getBlockNumberByUser = () => {
       pList.push(label)
       playerData.push({
         label,
-        size: calculateClaimSize({ x, z })
+        size: calculateClaimSize({ x, z }).size,
+        claims: 1
       })
     } else {
       const found = playerData.find(item => item.label === label)
-      found.size += calculateClaimSize({ x, z })
+      found.size += calculateClaimSize({ x, z }).size
+      found.claims += 1
     }
   })
 
@@ -290,7 +291,7 @@ const loadListeners = () => {
     let list = ''
     const top = getBlockNumberByUser()
     const element = document.getElementById('results')
-    top.forEach(({ label, size }) => { list += `<li><strong>${label}:</strong><span>${size}</span></li>` })
+    top.forEach(({ label, size, claims }) => { list += `<li><strong>${label}:</strong><span>${size}</span> (${claims} claims)</li>` })
     element.innerHTML = `<ol>${list}</ol>`
   })
 
