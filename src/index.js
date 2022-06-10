@@ -1,4 +1,3 @@
-// import json from './20220425_marker_world.json';
 import './css/index.scss';
 
 let arrResults = [];
@@ -22,7 +21,7 @@ const sizeColorScale = {
 }
 
 let json = {};
-const proxyAntiCors = 'https://cors-anywhere.herokuapp.com/';
+const proxyAntiCors = 'https://api.allorigins.win/raw?url=';
 const urlRemoteMap = 'https://mapa.shibacraft.net/tiles/_markers_/marker_world.json';
 
 const parseMap = (jsonData) => {
@@ -65,7 +64,6 @@ const orderResults = ({ key, order }) => {
       return a[key] - b[key];
     }
     return b[key] - a[key];
-
   });
 };
 
@@ -97,7 +95,7 @@ const getColorScale = size => {
 const filterMap = ({ mapData, numDays = 5, callback }) => {
   const timeInterval = numDays * 86400000;
   mapData.forEach(e => {
-    if (e.label === 'administrador') {
+    if (e.label === 'administrador' || e.label === '[desconocido]') {
       return
     }
     let dateStr = findDataInDesc({ text: e.desc, regex: new RegExp(/login: (.*)Manager/, 'gi') });
@@ -105,7 +103,6 @@ const filterMap = ({ mapData, numDays = 5, callback }) => {
     if (dateStr) {
       [, dateStr] = dateStr;
     } else {
-      // console.error("Error getting date")
       return
     }
     if (claimType) {
@@ -164,7 +161,6 @@ const cleanPreviousResults = () => {
   const resultContent = document.querySelectorAll('#results')[0]
   Array.from(resultContent.children).forEach((item) => {
     if (!item.classList.contains('loader')) {
-      // console.log(item.classList.contains('loader'))
       resultContent.removeChild(item)
     }
   })
@@ -199,7 +195,6 @@ const bindMapLinks = () => {
   modalLinks.forEach((link) => {
     link.addEventListener('click', (event) => {
       event.preventDefault();
-      // console.log(event.target);
       const url = event.target.href;
       openMap(url);
     });
@@ -301,16 +296,13 @@ const loadListeners = () => {
 
   document.getElementById('search').addEventListener('click', () => {
     const numDays = document.getElementById('numDays').value;
-    // json = window.jsonImported;
     arrResults = [];
     cleanPreviousResults()
-    // getRemoteMap(urlRemoteMap).then((json) => {
     filterMap({
       mapData: parsedData,
       numDays,
       callback: showResults
     });
-    // });
   })
 
   const field = document.getElementById('player_name');
@@ -384,22 +376,8 @@ const loadListeners = () => {
 }
 
 window.onload = async () => {
-  json = await getRemoteMap(proxyAntiCors + urlRemoteMap)
+  json = await getRemoteMap(proxyAntiCors + encodeURIComponent(urlRemoteMap))
   parsedData = parseMap(json)
   playerList = getPlayerList()
   loadListeners()
 }
-
-
-// TODO LIST:
-
-// Change 'Claim' info by creating a kind of "card" where info is more graphic
-//    eg: user name like in a profile picture (random generated character illustrations)
-//        user info encapsulated in a "details / summary" element
-//        for coords, we can use an earth like image and make it clickable to open a modal with the map
-//        for claim size, we can use a color scale (red to green, or kind of)
-//        finally to show the type (claim/subclaim) and also make a filter in the top bar buttons (indicating wether to show up or not)
-
-// When showing player's claims, show total of claimblocks
-
-// Fix sum of claimblocks: not counting the subclaims
