@@ -1,0 +1,35 @@
+jsoneditoronline.org
+
+function query (data) {
+  const markers = data.sets["griefdefender.markerset"].areas
+  const borja = _.filter(markers, marker => marker.label === 'borjamlg92')
+
+  return {...data, sets: {...data.sets, "griefdefender.markerset": {...data.sets["griefdefender.markerset"], areas: borja}}}
+}
+
+-----
+
+User: NigthSss
+Coords: -4515.5, -4812.5 (NW)
+Tamaño claim: 13261 [149 × 89]
+Caducidad: Wed Nov 16 2022 21:00:16 GMT+0100 (hora estándar de Europa central)
+
+
+User: Danitrom
+Coords: 11402, 248 (NW)
+Tamaño claim: 60928 [238 × 256]
+Caducidad: Tue Nov 15 2022 17:21:00 GMT+0100 (hora estándar de Europa central)
+
+
+User: JhonShepard
+Coords: -220.5, -547.5 (NW)
+Tamaño claim: 7107 [69 × 103]
+Coords: 133, -638.5 (NW)
+Tamaño claim: 40480 [160 × 253]
+Coords: 11305.5, -118 (NW)
+Tamaño claim: 70738 [313 × 226]
+Coords: -66.5, -637.5 (NW)
+Tamaño claim: 59989 [239 × 251]
+Caducidad: Thu Nov 17 2022 18:27:40 GMT+0100 (hora estándar de Europa central)
+
+

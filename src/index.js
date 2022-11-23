@@ -1,4 +1,6 @@
 import './css/index.scss'
+// import clientPromise from './mongo'
+import getUserRange from './users-shiba'
 
 let arrResults = []
 let parsedData = []
@@ -11,6 +13,13 @@ const type = {
   TOWN: 'griefdefender:town'
 }
 const showSubclaims = false
+const daysToAbandon = {
+  0: 45, // Normal  - 200
+  1: 50, // Elite   - 400
+  2: 55, // Ultra   - 550
+  3: 60, // Mega    - 700
+  4: 65, // Supremo - 850
+}
 const sizeColorScale = {
   0: 0,
   300: 30,
@@ -69,16 +78,16 @@ const orderResults = ({ key, order }) => {
 
 const calculateClaimSize = ({ x, z }) => ({ x: (x[2] - x[0]), z: (z[2] - z[0]), size: (x[2] - x[0]) * (z[2] - z[0]) })
 
-const calculateTime = ({ claimDate, interval }) => {
+const calculateTime = ({ claimDate, interval, days }) => {
   const now = new Date().valueOf()
-  const deadlineDate = now - 45 * 86400 * 1000
+  const deadlineDate = now - days * 86400 * 1000
   const limitDate = deadlineDate + interval
   return claimDate - limitDate
 }
 
-const calculateDeadlineDate = (claimDate) => {
-  const fortyFiveDaysToMs = 45 * 86400 * 1000
-  return new Date(claimDate + fortyFiveDaysToMs)
+const calculateDeadlineDate = ({ claimDate, days }) => {
+  const daysInMs = days * 86400 * 1000
+  return new Date(claimDate + daysInMs)
 }
 
 const calculateCenter = ({ x, z }) => ({ x: (x[2] + x[0]) / 2, z: (z[2] + z[0]) / 2 })
@@ -98,6 +107,7 @@ const filterMap = ({ mapData, numDays = 5, callback }) => {
     if (e.label === 'administrador' || e.label === '[desconocido]') {
       return
     }
+    const userRange = getUserRange(e.label)
     let dateStr = findDataInDesc({ text: e.desc, regex: new RegExp(/login: (.*)Manager/, 'gi') })
     let claimType = findDataInDesc({ text: e.desc, regex: new RegExp(`(${type.CLAIM}|${type.SUBCLAIM}|${type.TOWN})`, 'gi') })
     if (dateStr) {
@@ -113,10 +123,12 @@ const filterMap = ({ mapData, numDays = 5, callback }) => {
     }
     const [, m, d, h, , y] = dateStr.split(' ')
     const fechaStr = `${d} ${m} ${y} ${h}`
-    const fecha = Date.parse(fechaStr)
+    const claimDate = Date.parse(fechaStr)
+    const numDaysForAbandon = daysToAbandon[userRange]
     const diffTime = calculateTime({
-      claimDate: fecha,
+      claimDate,
       interval: timeInterval,
+      days: numDaysForAbandon
     })
     const claimSize = calculateClaimSize(e)
     if (diffTime < 0) {
@@ -125,7 +137,7 @@ const filterMap = ({ mapData, numDays = 5, callback }) => {
       const claimInfo = {
         user: e.label,
         claimSize: claimSize.size,
-        date: fecha,
+        date: claimDate,
         text: `
         <li class="claim">
           <div class="ribbon" style="background-color: hsl(${getColorScale(claimSize.size)}, 100%, 50%)"></div>
@@ -133,7 +145,7 @@ const filterMap = ({ mapData, numDays = 5, callback }) => {
             <label>User: ${e.label}</label><br/>
             <label>Coords: <a href="${mapUrl}" class="open_modal" target="_blank">${printCoords(e).center}</a> (NW)</label><br/>
             <label>Tamaño claim: ${claimSize.size} [${claimSize.x} &times ${claimSize.z}]</label><br/>
-            <label>Caducidad: ${calculateDeadlineDate(fecha).toString()}</label><br/>
+            <label>Caducidad: ${calculateDeadlineDate({ claimDate, days: numDaysForAbandon }).toString()}</label><br/>
             <details><summary>Info:</summary>${e.desc}</details>
           </div>
         </li>`,
@@ -251,10 +263,17 @@ const getClaimsByPlayer = (playerName) => {
 }
 
 const getPlayerList = () => (
-  parsedData.map(({ label }) => label.toLowerCase())
+  parsedData.map(({ label }) => {
+    // addOrUpdatePlayer(label)
+    return label.toLowerCase()
+  })
     .filter((value, index, self) => self.indexOf(value) === index)
     .sort()
 )
+
+// const addOrUpdatePlayer = (playername) => {
+//   // console.log(playername)
+// }
 
 const filterPlayerList = (str) => {
   const filteredList = playerList.filter(name => {
@@ -376,8 +395,10 @@ const loadListeners = () => {
   })
 }
 
+// json = require('./assets/borja.json')
 window.onload = async () => {
   json = await getRemoteMap(proxyAntiCors + encodeURIComponent(urlRemoteMap))
+  // json = await getRemoteMap('http://localhost:5050/20220601_marker_world.json')
   parsedData = parseMap(json)
   playerList = getPlayerList()
   loadListeners()
