@@ -1,0 +1,346 @@
+{
+  "sets": {
+    "griefdefender.markerset": {
+      "hide": false,
+      "circles": {
+
+      },
+      "areas": [
+        {
+          "fillcolor": "#F18D4D",
+          "ytop": 64.00,
+          "color": "#F18D4D",
+          "markup": false,
+          "x": [
+            2809.00,
+            2809.00,
+            2835.00,
+            2835.00
+          ],
+          "weight": 2,
+          "z": [
+            2420.00,
+            2431.00,
+            2431.00,
+            2420.00
+          ],
+          "ybottom": 64.00,
+          "label": "borjamlg92",
+          "opacity": 0.60,
+          "fillopacity": 0.15,
+          "desc": "<div><div>Ciudad: <span style=\"font-weight:bold\">none</span><br />Presidente: <span style=\"font-weight:bold\">borjamlg92</span><br />PresidenteUUID: <span style=\"font-weight:bold\">7d96b8fd-e4ef-3360-9f80-f8ad5cc2172a</span><br />Tipo: <span style=\"font-weight:bold\">griefdefender:basic</span><br />Último login: <span style=\"font-weight:bold\">Tue May 03 17:52:42 CEST 2022</span><br />Manager Trust: <span style=\"font-weight:bold\"></span><br />Builder Trust: <span style=\"font-weight:bold\">rociomlg96</span><br />Container Trust: <span style=\"font-weight:bold\"></span><br />Resident Trust: <span style=\"font-weight:bold\"></span></div>Access Trust: <span style=\"font-weight:bold\"></span></div>"
+        },
+        {
+          "fillcolor": "#F18D4D",
+          "ytop": 64.00,
+          "color": "#F18D4D",
+          "markup": false,
+          "x": [
+            2835.00,
+            2835.00,
+            2877.00,
+            2877.00
+          ],
+          "weight": 2,
+          "z": [
+            2410.00,
+            2446.00,
+            2446.00,
+            2410.00
+          ],
+          "ybottom": 64.00,
+          "label": "borjamlg92",
+          "opacity": 0.60,
+          "fillopacity": 0.15,
+          "desc": "<div><div>Ciudad: <span style=\"font-weight:bold\">none</span><br />Presidente: <span style=\"font-weight:bold\">borjamlg92</span><br />PresidenteUUID: <span style=\"font-weight:bold\">7d96b8fd-e4ef-3360-9f80-f8ad5cc2172a</span><br />Tipo: <span style=\"font-weight:bold\">griefdefender:basic</span><br />Último login: <span style=\"font-weight:bold\">Tue May 03 17:52:42 CEST 2022</span><br />Manager Trust: <span style=\"font-weight:bold\"></span><br />Builder Trust: <span style=\"font-weight:bold\"></span><br />Container Trust: <span style=\"font-weight:bold\"></span><br />Resident Trust: <span style=\"font-weight:bold\"></span></div>Access Trust: <span style=\"font-weight:bold\"></span></div>"
+        },
+        {
+          "fillcolor": "#F18D4D",
+          "ytop": 64.00,
+          "color": "#F18D4D",
+          "markup": false,
+          "x": [
+            2809.00,
+            2809.00,
+            2852.00,
+            2852.00
+          ],
+          "weight": 2,
+          "z": [
+            2446.00,
+            2475.00,
+            2475.00,
+            2446.00
+          ],
+          "ybottom": 64.00,
+          "label": "borjamlg92",
+          "opacity": 0.60,
+          "fillopacity": 0.15,
+          "desc": "<div><div>Ciudad: <span style=\"font-weight:bold\">none</span><br />Presidente: <span style=\"font-weight:bold\">borjamlg92</span><br />PresidenteUUID: <span style=\"font-weight:bold\">7d96b8fd-e4ef-3360-9f80-f8ad5cc2172a</span><br />Tipo: <span style=\"font-weight:bold\">griefdefender:basic</span><br />Último login: <span style=\"font-weight:bold\">Tue May 03 17:52:42 CEST 2022</span><br />Manager Trust: <span style=\"font-weight:bold\">Arparchancla</span><br />Builder Trust: <span style=\"font-weight:bold\">migocho, Arparchancla, rociomlg96</span><br />Container Trust: <span style=\"font-weight:bold\"></span><br />Resident Trust: <span style=\"font-weight:bold\"></span></div>Access Trust: <span style=\"font-weight:bold\"></span></div>"
+        },
+        {
+          "fillcolor": "#F18D4D",
+          "ytop": 64.00,
+          "color": "#F18D4D",
+          "markup": false,
+          "x": [
+            2739.00,
+            2739.00,
+            2809.00,
+            2809.00
+          ],
+          "weight": 2,
+          "z": [
+            2477.00,
+            2545.00,
+            2545.00,
+            2477.00
+          ],
+          "ybottom": 64.00,
+          "label": "borjamlg92",
+          "opacity": 0.60,
+          "fillopacity": 0.15,
+          "desc": "<div><div>Ciudad: <span style=\"font-weight:bold\">none</span><br />Presidente: <span style=\"font-weight:bold\">borjamlg92</span><br />PresidenteUUID: <span style=\"font-weight:bold\">7d96b8fd-e4ef-3360-9f80-f8ad5cc2172a</span><br />Tipo: <span style=\"font-weight:bold\">griefdefender:basic</span><br />Último login: <span style=\"font-weight:bold\">Tue May 03 17:52:42 CEST 2022</span><br />Manager Trust: <span style=\"font-weight:bold\"></span><br />Builder Trust: <span style=\"font-weight:bold\">rociomlg96</span><br />Container Trust: <span style=\"font-weight:bold\"></span><br />Resident Trust: <span style=\"font-weight:bold\"></span></div>Access Trust: <span style=\"font-weight:bold\"></span></div>"
+        },
+        {
+          "fillcolor": "#F18D4D",
+          "ytop": 64.00,
+          "color": "#F18D4D",
+          "markup": false,
+          "x": [
+            2852.00,
+            2852.00,
+            2875.00,
+            2875.00
+          ],
+          "weight": 2,
+          "z": [
+            2446.00,
+            2475.00,
+            2475.00,
+            2446.00
+          ],
+          "ybottom": 64.00,
+          "label": "borjamlg92",
+          "opacity": 0.60,
+          "fillopacity": 0.15,
+          "desc": "<div><div>Ciudad: <span style=\"font-weight:bold\">none</span><br />Presidente: <span style=\"font-weight:bold\">borjamlg92</span><br />PresidenteUUID: <span style=\"font-weight:bold\">7d96b8fd-e4ef-3360-9f80-f8ad5cc2172a</span><br />Tipo: <span style=\"font-weight:bold\">griefdefender:basic</span><br />Último login: <span style=\"font-weight:bold\">Tue May 03 17:52:42 CEST 2022</span><br />Manager Trust: <span style=\"font-weight:bold\"></span><br />Builder Trust: <span style=\"font-weight:bold\">migocho, Arparchancla, rociomlg96</span><br />Container Trust: <span style=\"font-weight:bold\"></span><br />Resident Trust: <span style=\"font-weight:bold\"></span></div>Access Trust: <span style=\"font-weight:bold\"></span></div>"
+        },
+        {
+          "fillcolor": "#F18D4D",
+          "ytop": 64.00,
+          "color": "#F18D4D",
+          "markup": false,
+          "x": [
+            -8758.00,
+            -8758.00,
+            -8725.00,
+            -8725.00
+          ],
+          "weight": 2,
+          "z": [
+            -4333.00,
+            -4287.00,
+            -4287.00,
+            -4333.00
+          ],
+          "ybottom": 64.00,
+          "label": "borjamlg92",
+          "opacity": 0.60,
+          "fillopacity": 0.15,
+          "desc": "<div><div>Ciudad: <span style=\"font-weight:bold\">none</span><br />Presidente: <span style=\"font-weight:bold\">borjamlg92</span><br />PresidenteUUID: <span style=\"font-weight:bold\">7d96b8fd-e4ef-3360-9f80-f8ad5cc2172a</span><br />Tipo: <span style=\"font-weight:bold\">griefdefender:basic</span><br />Último login: <span style=\"font-weight:bold\">Sun May 29 16:00:40 CEST 2022</span><br />Manager Trust: <span style=\"font-weight:bold\"></span><br />Builder Trust: <span style=\"font-weight:bold\"></span><br />Container Trust: <span style=\"font-weight:bold\"></span><br />Resident Trust: <span style=\"font-weight:bold\"></span></div>Access Trust: <span style=\"font-weight:bold\"></span></div>"
+        },
+        {
+          "fillcolor": "#D52771",
+          "ytop": 64.00,
+          "color": "#D52771",
+          "markup": false,
+          "x": [
+            2831.00,
+            2831.00,
+            2846.00,
+            2846.00
+          ],
+          "weight": 2,
+          "z": [
+            2460.00,
+            2474.00,
+            2474.00,
+            2460.00
+          ],
+          "ybottom": 64.00,
+          "label": "borjamlg92",
+          "opacity": 0.60,
+          "fillopacity": 0.15,
+          "desc": "<div><div>Ciudad: <span style=\"font-weight:bold\">none</span><br />Presidente: <span style=\"font-weight:bold\">borjamlg92</span><br />PresidenteUUID: <span style=\"font-weight:bold\">7d96b8fd-e4ef-3360-9f80-f8ad5cc2172a</span><br />Tipo: <span style=\"font-weight:bold\">griefdefender:subdivision</span><br />Último login: <span style=\"font-weight:bold\">Tue May 03 17:52:42 CEST 2022</span><br />Manager Trust: <span style=\"font-weight:bold\"></span><br />Builder Trust: <span style=\"font-weight:bold\">migocho, Arparchancla, rociomlg96</span><br />Container Trust: <span style=\"font-weight:bold\"></span><br />Resident Trust: <span style=\"font-weight:bold\"></span></div>Access Trust: <span style=\"font-weight:bold\"></span></div>"
+        },
+        {
+          "fillcolor": "#F18D4D",
+          "ytop": 64.00,
+          "color": "#F18D4D",
+          "markup": false,
+          "x": [
+            2809.00,
+            2809.00,
+            2835.00,
+            2835.00
+          ],
+          "weight": 2,
+          "z": [
+            2431.00,
+            2446.00,
+            2446.00,
+            2431.00
+          ],
+          "ybottom": 64.00,
+          "label": "borjamlg92",
+          "opacity": 0.60,
+          "fillopacity": 0.15,
+          "desc": "<div><div>Ciudad: <span style=\"font-weight:bold\">none</span><br />Presidente: <span style=\"font-weight:bold\">borjamlg92</span><br />PresidenteUUID: <span style=\"font-weight:bold\">7d96b8fd-e4ef-3360-9f80-f8ad5cc2172a</span><br />Tipo: <span style=\"font-weight:bold\">griefdefender:basic</span><br />Último login: <span style=\"font-weight:bold\">Tue May 03 17:52:42 CEST 2022</span><br />Manager Trust: <span style=\"font-weight:bold\"></span><br />Builder Trust: <span style=\"font-weight:bold\"></span><br />Container Trust: <span style=\"font-weight:bold\"></span><br />Resident Trust: <span style=\"font-weight:bold\"></span></div>Access Trust: <span style=\"font-weight:bold\"></span></div>"
+        },
+        {
+          "fillcolor": "#F18D4D",
+          "ytop": 64.00,
+          "color": "#F18D4D",
+          "markup": false,
+          "x": [
+            5912.00,
+            5912.00,
+            5995.00,
+            5995.00
+          ],
+          "weight": 2,
+          "z": [
+            4177.00,
+            4262.00,
+            4262.00,
+            4177.00
+          ],
+          "ybottom": 64.00,
+          "label": "borjamlg92",
+          "opacity": 0.60,
+          "fillopacity": 0.15,
+          "desc": "<div><div>Ciudad: <span style=\"font-weight:bold\">none</span><br />Presidente: <span style=\"font-weight:bold\">borjamlg92</span><br />PresidenteUUID: <span style=\"font-weight:bold\">7d96b8fd-e4ef-3360-9f80-f8ad5cc2172a</span><br />Tipo: <span style=\"font-weight:bold\">griefdefender:basic</span><br />Último login: <span style=\"font-weight:bold\">Tue May 03 17:52:42 CEST 2022</span><br />Manager Trust: <span style=\"font-weight:bold\"></span><br />Builder Trust: <span style=\"font-weight:bold\">rociomlg96</span><br />Container Trust: <span style=\"font-weight:bold\"></span><br />Resident Trust: <span style=\"font-weight:bold\"></span></div>Access Trust: <span style=\"font-weight:bold\"></span></div>"
+        }
+      ],
+      "label": "GriefDefender",
+      "markers": {
+
+      },
+      "lines": {
+
+      },
+      "layerprio": 10
+    },
+    "chunky.markerset": {
+      "hide": false,
+      "circles": {
+
+      },
+      "areas": {
+        "area_1": {
+          "fillcolor": "#000000",
+          "ytop": 64.00,
+          "color": "#FF0000",
+          "markup": false,
+          "x": [
+            18431.00,
+            -18432.00,
+            -18432.00,
+            18431.00
+          ],
+          "weight": 3,
+          "z": [
+            -9216.00,
+            -9216.00,
+            9215.00,
+            9215.00
+          ],
+          "ybottom": 64.00,
+          "label": " ",
+          "opacity": 1.00,
+          "fillopacity": 0.00
+        }
+      },
+      "label": "World Border",
+      "markers": {
+
+      },
+      "lines": {
+
+      },
+      "layerprio": 0
+    },
+    "markers": {
+      "hide": false,
+      "circles": {
+
+      },
+      "areas": {
+
+      },
+      "label": "Markers",
+      "markers": {
+        "Ladrones": {
+          "markup": false,
+          "x": -4279.00,
+          "icon": "building",
+          "y": 105.00,
+          "dim": "16x16",
+          "z": -7624.00,
+          "label": "Ladrones"
+        },
+        "Texas": {
+          "markup": false,
+          "x": -9875.00,
+          "icon": "building",
+          "y": 65.00,
+          "dim": "16x16",
+          "z": -3089.00,
+          "label": "Texas"
+        },
+        "Mondapur": {
+          "markup": false,
+          "x": 10572.00,
+          "icon": "building",
+          "y": 64.00,
+          "dim": "16x16",
+          "z": -415.00,
+          "label": "Mondapur"
+        },
+        "Tharsis": {
+          "markup": false,
+          "x": -811.00,
+          "icon": "building",
+          "y": 68.00,
+          "dim": "16x16",
+          "z": -4033.00,
+          "label": "Tharsis"
+        },
+        "Amazonia": {
+          "markup": false,
+          "x": -7031.00,
+          "icon": "building",
+          "y": 65.00,
+          "dim": "16x16",
+          "z": 169.00,
+          "label": "Amazonia"
+        },
+        "Golfo´s_Lake_City": {
+          "markup": false,
+          "x": -8918.00,
+          "icon": "building",
+          "y": 66.00,
+          "dim": "16x16",
+          "z": -4209.00,
+          "label": "Golfo´s_Lake_City"
+        }
+      },
+      "lines": {
+
+      },
+      "layerprio": 0
+    }
+  },
+  "timestamp": 1654090863278
+}

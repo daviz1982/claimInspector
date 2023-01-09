@@ -46,6 +46,11 @@ module.exports = (_, argv) => {
               }
             }
           ]
+        },
+        {
+          test: /\.\/assets\/*\.json$/,
+          type: 'asset/resource',
+          
         }
       ],
     },
