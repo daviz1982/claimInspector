@@ -54,6 +54,7 @@ const getRemoteMap = async (url) => {
   })
   if (response.ok) {
     const jsonValue = await response.json()
+    toggleLoader()
     return Promise.resolve(jsonValue)
   }
   return Promise.reject('Not found')
@@ -399,6 +400,7 @@ const loadListeners = () => {
 window.onload = async () => {
   json = await getRemoteMap(proxyAntiCors + encodeURIComponent(urlRemoteMap))
   // json = await getRemoteMap('http://localhost:5050/20220601_marker_world.json')
+  toggleLoader()
   parsedData = parseMap(json)
   playerList = getPlayerList()
   loadListeners()
