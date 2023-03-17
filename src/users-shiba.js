@@ -31,6 +31,7 @@ const getUserRange = username => {
     case 'MrTroy77':
     case 'vizucv':
     case 'ladronderecursos':
+    case 'VBruno30':
       return 3
     case 'JCC1995':
     case '8Hiru8':
@@ -50,7 +51,6 @@ const getUserRange = username => {
     case 'deltafire777YT':
     case 'vayix':
     case '1_V3LF0R_1':
-    case 'VBruno30':
       return 4
     default:
       return 0
