@@ -4,6 +4,16 @@ const getUserRange = username => {
   // const results = await collection.findOne({ username })
   // if (results) return results
   // return null
+  
+  /*
+  const daysToAbandon = {
+    0: 45, // Normal  - 200
+    1: 50, // Elite   - 400
+    2: 55, // Ultra   - 550
+    3: 60, // Mega    - 700
+    4: 65, // Supremo - 850
+  }
+  */
 
   switch (username) {
     case 'JhonShepard':
@@ -40,6 +50,7 @@ const getUserRange = username => {
     case 'deltafire777YT':
     case 'vayix':
     case '1_V3LF0R_1':
+    case 'VBruno30':
       return 4
     default:
       return 0
