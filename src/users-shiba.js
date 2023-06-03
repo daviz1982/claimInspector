@@ -20,14 +20,15 @@ const getUserRange = username => {
     case 'jesusmpc':
     case 'LaChurryFlower':
     case 'minecrafconedu':
+    case 'Soldado_74':
       return 2
     case 'Davido_SsS':
-    case 'Frank1200tv':
     case 'ladronderecursos':
     case 'Locurita':
     case 'LOLO23':
     case 'Mario':
     case 'MrTroy77':
+    case 'Nievsassy':
     case 'VBruno30':
     case 'vladimirovich23':
     case 'ZorrilloEstepa':
@@ -38,12 +39,14 @@ const getUserRange = username => {
     case 'Celi511':
     case 'daviz667':
     case 'deltafire777YT':
+    case 'Frank1200tv':
     case 'G19TheGreat':
     case 'GolfilloGTI':
     case 'JaviYoQueSe':
     case 'JCC1995':
     case 'Lgm_16':
     case 'oliver':
+    case 'pinkroster68':
     case 'rociomlg96':
     case 'Unmalaje':
     case 'Sagres_V':
