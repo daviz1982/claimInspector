@@ -10,6 +10,7 @@ module.exports = (_, argv) => {
     output: {
       filename: 'bundle.js',
       path: path.resolve(__dirname, 'build'),
+      hashFunction: 'xxhash64',
       clean: true,
     },
     devServer: {
@@ -50,7 +51,7 @@ module.exports = (_, argv) => {
         {
           test: /\.\/assets\/*\.json$/,
           type: 'asset/resource',
-          
+
         }
       ],
     },
