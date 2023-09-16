@@ -42,6 +42,7 @@ const getUserRange = username => {
     case 'Frank1200tv':
     case 'G19TheGreat':
     case 'GolfilloGTI':
+    case 'Gorka35gg':
     case 'JaviYoQueSe':
     case 'JCC1995':
     case 'Lgm_16':
@@ -50,10 +51,12 @@ const getUserRange = username => {
     case 'rociomlg96':
     case 'Unmalaje':
     case 'Sagres_V':
+    case 'SapSD':
+    case 'vayix':
     case 'Victxrius718':
     case 'vizucv':
+    case 'Wito8':
     case 'YTFocusMK4':
-    case 'vayix':
       return 4
     default:
       return 0
