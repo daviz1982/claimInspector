@@ -39,7 +39,7 @@ const getUserRange = username => {
     case 'Celi511':
     case 'daviz667':
     case 'deltafire777YT':
-    case 'Frank1200tv':
+    case 'Frank1200Tv':
     case 'G19TheGreat':
     case 'GolfilloGTI':
     case 'Gorka35gg':
