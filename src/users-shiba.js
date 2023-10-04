@@ -63,4 +63,12 @@ const getUserRange = username => {
   }
 }
 
+export const RANGE = [
+  "Normal",
+  "Elite",
+  "Ultra",
+  "Mega",
+  "Supremo",
+]
+
 export default getUserRange;

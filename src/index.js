@@ -1,6 +1,6 @@
 import './css/index.scss'
 // import clientPromise from './mongo'
-import getUserRange from './users-shiba'
+import getUserRange, { RANGE } from './users-shiba'
 
 let arrResults = []
 let parsedData = []
@@ -46,6 +46,12 @@ const parseMap = (jsonData) => {
     }
   })
   return data
+}
+
+const toggleLoader = () => {
+  const IS_HIDDEN = 'is-hidden'
+  const loader = document.querySelector('#results > .loader')
+  return loader && loader.classList.toggle(IS_HIDDEN)
 }
 
 const getRemoteMap = async (url) => {
@@ -143,7 +149,7 @@ const filterMap = ({ mapData, numDays = 5, callback }) => {
         <li class="claim">
           <div class="ribbon" style="background-color: hsl(${getColorScale(claimSize.size)}, 100%, 50%)"></div>
           <div class="claim-info">
-            <label>User: ${e.label}</label><br/>
+            <label>User: ${e.label} <strong>[${RANGE[userRange]}]</strong></label><br/>
             <label>Coords: <a href="${mapUrl}" class="open_modal" target="_blank">${printCoords(e).center}</a> (NW)</label><br/>
             <label>Tamaño claim: ${claimSize.size} [${claimSize.x} &times ${claimSize.z}]</label><br/>
             <label>Caducidad: ${calculateDeadlineDate({ claimDate, days: numDaysForAbandon }).toString()}</label><br/>
@@ -161,12 +167,6 @@ const filterMap = ({ mapData, numDays = 5, callback }) => {
   })
 
   callback()
-}
-
-const toggleLoader = () => {
-  const IS_HIDDEN = 'is-hidden'
-  const loader = document.querySelector('#results > .loader')
-  return loader && loader.classList.toggle(IS_HIDDEN)
 }
 
 const cleanPreviousResults = () => {
@@ -264,10 +264,10 @@ const getClaimsByPlayer = (playerName) => {
 }
 
 const getPlayerList = () => (
-  parsedData.map(({ label }) => {
+  parsedData.map(({ label }) =>
     // addOrUpdatePlayer(label)
-    return label.toLowerCase()
-  })
+    label.toLowerCase()
+  )
     .filter((value, index, self) => self.indexOf(value) === index)
     .sort()
 )
@@ -311,7 +311,10 @@ const loadListeners = () => {
     let list = ''
     const top = getBlockNumberByUser()
     const element = document.getElementById('results')
-    top.forEach(({ label, size, claims }) => { list += `<li><strong>${label}:</strong><span>${size}</span> (${claims} claims)</li>` })
+    top.forEach(({ label, size, claims }) => {
+      const userRange = getUserRange(label)
+      list += `<li><strong>${label} [${RANGE[userRange]}]:</strong><span>${size}</span> (${claims} claims)</li>`
+    })
     element.innerHTML = `<ol>${list}</ol>`
   })
 
