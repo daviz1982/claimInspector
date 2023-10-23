@@ -59,6 +59,7 @@ const getUserRange = username => {
     case 'sagres_v':
     case 'sapsd':
     case 'sergiius':
+    case 'srhachiko':
     case 'trripe1':
     case 'turly04':
     case 'vayix':
